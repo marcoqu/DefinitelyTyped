@@ -6763,11 +6763,37 @@ export namespace CurveUtils {
     export function tangentSpline(t: number, p0: number, p1: number, p2: number, p3: number): number;
     export function interpolate(p0: number, p1: number, p2: number, p3: number, t: number): number;
 }
+	
+export type CatmullRomCurve3Type = "centripetal" | "chordal" | "catmullrom"
 
 export class CatmullRomCurve3 extends Curve<Vector3> {
-    constructor(points?: Vector3[]);
+    constructor(points?: Vector3[], closed?: boolean, curveType?: CatmullRomCurve3Type, tension?: number);
 
+    /**
+     * Used to check whether this or derived classes are CatmullRomCurve3s. Default is true.
+	 * You should not change this, as it used internally for optimisation.
+     */
+    isCatmullRomCurve3: boolean;
+    
+    /**
+     * The array of Vector3 points that define the curve. It needs at least two entries.
+     */
     points: Vector3[];
+    
+    /**
+     * The curve will loop back onto itself when this is true.
+     */
+    closed: boolean;
+    
+    /**
+     * Possible values are centripetal, chordal and catmullrom.
+     */
+    curveType: CatmullRomCurve3Type;
+    
+    /**
+     * When .type is catmullrom, defines catmullrom's tension.
+     */
+    tension: number;
 
     getPoint(t: number): Vector3;
 }
